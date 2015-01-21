@@ -1,0 +1,200 @@
+{% extends 'main.html'  %}
+
+{% block contenido %}
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Insert title here</title>
+<link href="static/css/jquery.dataTables.min.css" rel="stylesheet">
+<script src="static/js/jquery.dataTables.min.js"></script>
+<script src="static/js/bootstrapPager.min.js"></script>
+
+<link href="static/css/jquery-ui.min.css" rel="stylesheet">
+<script src="static/js/jquery-ui.min.js"></script>
+
+<link href="static/css/datepicker.css" rel="stylesheet">
+<script src="static/js/bootstrap-datepicker.js"></script>
+
+<script type="text/javascript">
+$(function(){
+	$('#btnCrear').click(function(){
+		$('#divFormitsae').show();
+		$('#btnCrear').hide();
+	});
+	
+	$('#fnacimiento').datepicker({
+		format:"yyyy-mm-dd"
+	});
+	
+	
+	
+});
+
+</script>
+</head>
+<body>
+
+	<div id="divFormitsae" style="display: none;">
+		<div class="panel panel-primary">
+			<div class="panel-heading"> 
+				<h3 class="panel-title">Formulario de Registro</h3>
+			</div>
+			<div class="panel-body">
+			<div id="formAdd" align="center">			
+			<form action="/addPersona"  id="formP" name="formP" method="post"
+			class="form-horizontal" role="form">
+			
+			<div class="form-group">
+			<label for="nombre" class="col-sm-2 control-label">Nombre:</label>
+			<div class="col-sm-10">
+			<input type="text" id="nombre" name="nombre" class="form-control">
+			</div>
+			</div>
+
+			<div class="form-group">
+			<label for="apaterno" class="col-sm-2 control-label">A. Paterno:</label>
+			<div class="col-sm-10">
+			<input type="text" id="apaterno" name="apaterno" class="form-control">
+			</div>
+			</div>
+
+			<div class="form-group">
+			<label for="amaterno" class="col-sm-2 control-label">A. Materno:</label>
+			<div class="col-sm-10">
+			<input type="text" id="amaterno" name="amaterno" class="form-control">
+			</div>
+			</div>
+
+			<div class="form-group">
+			<label for="cedula" class="col-sm-2 control-label">Cedula:</label>
+			<div class="col-sm-10">
+			<input type="text" id="cedula" name="cedula" class="form-control">
+			</div>
+			</div>
+			
+			<div class="form-group">
+			<label for="fnacimiento" class="col-sm-2 control-label">F. Nacimiento:</label>
+			<div class="col-sm-10">
+			<input type="date" id="fnacimiento" name="fnacimiento" class="form-control">
+			</div>
+			</div>			
+			
+			<div class="form-group">
+			<label for="sexo" class="col-sm-2 control-label">Sexo:</label>
+			<div class="radio">
+				<label class="checkbox-inline" >
+				<input type="radio" value="M" name="sexo" checked="checked"> 
+				Masculino
+				</label>
+				
+				<label class="checkbox-inline" >
+				<input type="radio" value="F" name="sexo">
+				Femenino
+				</label>
+			</div>
+			</div>
+						
+			<div class="form-group">
+			<label for="direccion" class="col-sm-2 control-label">Direcci&oacute;n:</label>
+			<div class="col-sm-10">
+			<textarea rows="2" class="form-control" name="direccion"></textarea>
+			</div>
+			</div>	
+			
+			<div class="form-group">
+			<label for="celular" class="col-sm-2 control-label">Celular:</label>
+			<div class="col-sm-10">
+			<input type="text" class="form-control" name="celular"  >
+			</div>
+			</div>
+			
+			<div class="form-group">
+			<label for="estado" class="col-sm-2 control-label">Estado:</label>
+			<div class="col-sm-10">
+				<select name="estado" class="form-control">
+					<option value="1">Activo</option>
+					<option value="2">Desactivo</option>
+				</select>
+			</div>
+			</div>
+			
+			
+			<div class="form-group">			
+			<div class="col-sm-10">
+				<input type="submit" name="btnEnviar" class="btn btn-success" value="Registrar">
+				<input type="reset" name="btnLimpiar" class="btn btn-info"  value="Limpiar">
+			</div>
+			</div>			
+			
+			
+			</form>			
+			</div>
+			</div>
+		</div>
+		
+	</div>
+	
+	
+	<diV id="divFormS" align="center">
+	
+	<form action="/buscarDato" id="formBuscar" class="form-inline" role="form" >	
+	<div class="form-group">
+	<label for="bnombre" class="col-sm-2 control-label">Buscar Nombre:</label>
+	<div class="col-sm-10">
+	<input type="text" id="bnombre" name="bnombre" class="form-control">
+	<input type="submit" id="btnBuscar" class="btn btn-primary" value="Buscar">
+	<input type="button" id="btnCrear" class="btn btn-success" value="Crear">
+	</div>
+	</div>		
+	</form>
+		
+	</diV>
+	
+	<div class="table-responsive"> 
+	<table class="table" id="tableItsae">
+		<thead>
+		<tr>
+			<th>Nombre</th>
+			<th>A. Paterno</th>
+			<th>A. Materno</th>
+			<th>Cedula</th>
+		</tr>	
+		</thead>
+		<tbody>	
+		{% for d in data %}
+		<tr>
+			<td>{{d[1]}}</td>
+			<td>{{d[2]}}</td>
+			<td>{{d[3]}}</td>
+			<td>{{d[4]}}</td>
+		</tr>
+		{% endfor %}	
+		</tbody>	
+	</table>
+	</div>
+	
+	
+<script type="text/javascript">
+	$('#tableItsae').DataTable({
+		pagingType: "bootstrapPager",
+		pagerSettings:{ 
+			searchOnEnter:true,
+			language: "Pagina ~ of ~ Paginas"			
+		}
+	}
+	);
+	
+	
+</script>
+
+<script type="text/javascript">
+$('#bnombre').autocomplete({
+		source:"/buscarauto",
+		minLength:2	
+});
+
+</script>
+		
+</body>
+
+{% endblock %}
